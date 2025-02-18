@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"forum/handlers"
+	"forum/controllers"
 
 	"github.com/labstack/echo/v4"
 )
 
 // Register About Route
 func AboutRoutes(e *echo.Echo) {
-	e.GET("/about", handlers.AboutHandler)
+	e.GET("/about", controllers.AboutController)
 }

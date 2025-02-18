@@ -1,8 +1,8 @@
 package routes
 
 import (
+	"forum/controllers"
 	dto "forum/dto/post"
-	"forum/handlers"
 	"forum/middlewares"
 
 	"github.com/labstack/echo/v4"
@@ -11,7 +11,7 @@ import (
 func PostRoutes(e *echo.Echo) {
 	postGroup := e.Group("/posts")
 	postGroup.Use(middlewares.JwtAuthMiddleware)
-	postGroup.POST("/create", middlewares.RequestBinder(handlers.CreatePost, &dto.CreatePostRequest{}))
-	postGroup.PUT("/update", middlewares.RequestBinder(handlers.UpdatePost, &dto.UpdatePostRequest{}))
-	postGroup.DELETE("/delete", handlers.DeletePost)
+	postGroup.POST("/create", middlewares.RequestBinder(controllers.CreatePostController, &dto.CreatePostRequest{}))
+	postGroup.PUT("/update", middlewares.RequestBinder(controllers.UpdatePostController, &dto.UpdatePostRequest{}))
+	postGroup.DELETE("/delete", controllers.DeletePostController)
 }

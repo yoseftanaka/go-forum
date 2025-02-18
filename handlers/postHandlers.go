@@ -10,9 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreatePost(c echo.Context) error {
-	req := c.Get("request").(*dto.CreatePostRequest)
-
+func CreatePost(req *dto.CreatePostRequest) (*models.Post, error) {
 	post := models.Post{
 		Title:   req.Title,
 		Content: req.Content,
@@ -20,16 +18,15 @@ func CreatePost(c echo.Context) error {
 	}
 
 	if err := config.DB.Create(&post).Error; err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "Fail to create post")
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, "Fail to create post")
 	}
 
-	return c.JSON(http.StatusCreated, post)
+	return &post, nil
 }
 
-func UpdatePost(c echo.Context) error {
-	id := c.QueryParam("id")
+func UpdatePost(id string, req *dto.UpdatePostRequest) (*models.Post, error) {
 	if id == "" {
-		return echo.NewHTTPError(http.StatusBadRequest, "ID not defined")
+		return nil, echo.NewHTTPError(http.StatusBadRequest, "ID not defined")
 	}
 
 	var post models.Post
@@ -37,29 +34,26 @@ func UpdatePost(c echo.Context) error {
 
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
-			return echo.NewHTTPError(http.StatusNotFound, "Post not found")
+			return nil, echo.NewHTTPError(http.StatusNotFound, "Post not found")
 		}
 		// Handle other types of errors (e.g., database connectivity errors)
-		return echo.NewHTTPError(http.StatusInternalServerError, "Internal Server Error")
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, "Internal Server Error")
 	}
-
-	req := c.Get("request").(*dto.UpdatePostRequest)
 
 	post.Content = req.Content
 	post.Title = req.Title
 	post.IsEdited = true
 
 	if err := config.DB.Save(&post).Error; err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "Fail to update post")
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, "Fail to update post")
 	}
 
-	return c.JSON(http.StatusOK, post)
+	return &post, nil
 }
 
-func DeletePost(c echo.Context) error {
-	id := c.QueryParam("id")
+func DeletePost(id string) (map[string]string, error) {
 	if id == "" {
-		return echo.NewHTTPError(http.StatusBadRequest, "ID not defined")
+		return nil, echo.NewHTTPError(http.StatusBadRequest, "ID not defined")
 	}
 
 	var post models.Post
@@ -67,15 +61,15 @@ func DeletePost(c echo.Context) error {
 
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
-			return echo.NewHTTPError(http.StatusNotFound, "Post not found")
+			return nil, echo.NewHTTPError(http.StatusNotFound, "Post not found")
 		}
 		// Handle other types of errors (e.g., database connectivity errors)
-		return echo.NewHTTPError(http.StatusInternalServerError, "Internal Server Error")
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, "Internal Server Error")
 	}
 
 	if err := config.DB.Delete(&post).Error; err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "Fail to delete post")
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, "Fail to delete post")
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{"message": "Post deleted successfully"})
+	return map[string]string{"message": "Post deleted successfully"}, nil
 }

@@ -1,8 +1,8 @@
 package routes
 
 import (
+	"forum/controllers"
 	dto "forum/dto/user"
-	"forum/handlers"
 	"forum/middlewares"
 
 	"github.com/labstack/echo/v4"
@@ -11,9 +11,9 @@ import (
 func UserRoutes(e *echo.Echo) {
 	userGroup := e.Group("/users")
 	userGroup.Use(middlewares.JwtAuthMiddleware)
-	userGroup.POST("/create", middlewares.RequestBinder(handlers.CreateUser, &dto.CreateUserRequest{}))
-	userGroup.GET("/get-list", handlers.GetAllUser)
-	userGroup.GET("/get-single", handlers.GetUserById)
-	userGroup.PUT("/update", middlewares.RequestBinder(handlers.UpdateUser, &dto.UpdateUserRequest{}))
-	userGroup.DELETE("/delete", handlers.DeleteUser)
+	userGroup.POST("/create", middlewares.RequestBinder(controllers.CreateUserCotnroller, &dto.CreateUserRequest{}))
+	userGroup.GET("/get-list", controllers.GetAllUserCotnroller)
+	userGroup.GET("/get-single", controllers.GetSingleUserCotnroller)
+	userGroup.PUT("/update", middlewares.RequestBinder(controllers.UpdateUserCotnroller, &dto.UpdateUserRequest{}))
+	userGroup.DELETE("/delete", controllers.DeleteUserCotnroller)
 }
