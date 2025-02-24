@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"forum/handlers"
+	"forum/main/handlers"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

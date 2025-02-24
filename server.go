@@ -1,9 +1,10 @@
 package main
 
 import (
-	"forum/config"
-	"forum/middlewares"
-	"forum/routes"
+	"forum/main/config"
+	"forum/main/loaders"
+	"forum/main/middlewares"
+	"forum/main/routes"
 
 	"github.com/labstack/echo/v4"
 )
@@ -12,6 +13,7 @@ func main() {
 	config.LoadEnv()
 	config.ConnectDatabase()
 	config.InitRedis()
+	loaders.LoadBean()
 	e := echo.New()
 
 	e.Use(middlewares.ErrorHandlerMiddleware)

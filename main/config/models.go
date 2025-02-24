@@ -1,6 +1,6 @@
 package config
 
-import "forum/models"
+import "forum/main/models"
 
 // List of all models
 var Models = []interface{}{

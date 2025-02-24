@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"forum/dto"
+	"forum/main/dto"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
