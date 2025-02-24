@@ -11,10 +11,10 @@ import (
 )
 
 type PostHandler struct {
-	PostRepository *repositories.PostRepository
+	PostRepository repositories.IPostRepository
 }
 
-func NewPostHandler(postRepostiroy *repositories.PostRepository) *PostHandler {
+func NewPostHandler(postRepostiroy repositories.IPostRepository) *PostHandler {
 	return &PostHandler{PostRepository: postRepostiroy}
 }
 
