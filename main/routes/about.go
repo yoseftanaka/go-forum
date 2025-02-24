@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"forum/controllers"
+	"forum/main/controllers"
 
 	"github.com/labstack/echo/v4"
 )

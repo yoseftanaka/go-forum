@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func HashString(text string) (string, error) {
+var HashString = func(text string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(text), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
@@ -16,10 +16,10 @@ func HashString(text string) (string, error) {
 	return string(hashedPassword), nil
 }
 
-func GenerateJWT[T string | uint](UserId T) (string, error) {
+var GenerateJWT = func(UserId interface{}) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": UserId,
-		"exp":     time.Now().Add(time.Hour * 24).Unix(), // Token expires in 24 hours
+		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

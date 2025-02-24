@@ -2,8 +2,8 @@ package middlewares
 
 import (
 	"fmt"
-	"forum/config"
-	"forum/constants"
+	"forum/main/config"
+	"forum/main/constants"
 	"net/http"
 	"os"
 

@@ -1,30 +1,19 @@
 package tests
 
 import (
+	"forum/main/handlers"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAbout(t *testing.T) {
-	// e := echo.New()
+	expected := map[string]string{"message": "This is the About page."}
 
-	// // Mock the response recorder
-	// rec := httptest.NewRecorder()
+	// Call the function
+	result, err := handlers.AboutHandler()
 
-	// // Create a mock Echo context
-	// req := httptest.NewRequest(http.MethodGet, "/about", nil) // Create the request
-	// c := e.NewContext(req, rec)                               // Initialize the context with the request and response recorder
-
-	// // Call the AboutHandler directly
-	// err := handlers.AboutHandler(c)
-
-	// // Assert no errors
-	// assert.NoError(t, err)
-
-	// // Check the response status code
-	// assert.Equal(t, http.StatusOK, rec.Code)
-
-	// // Check the response body
-	// expectedResponse := `{"message":"This is the About page."}`
-	// actualResponse := strings.TrimSpace(rec.Body.String()) // Trim any extra spaces/newlines
-	// assert.Equal(t, expectedResponse, actualResponse)
+	// Assertions
+	assert.NoError(t, err, "Expected no error")
+	assert.Equal(t, expected, result, "Response should match expected output")
 }
